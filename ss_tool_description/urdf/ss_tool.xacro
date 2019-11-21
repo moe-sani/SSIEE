@@ -234,7 +234,7 @@
     </inertial>
   </link>
 
-  <joint name="joint_thumb_PIP" type="revolute">
+  <joint name="joint_thumb_DIP" type="revolute">
     <parent link="link_thumb1"/>
     <child link="link_thumb2"/>
     <origin xyz="0 0 ${height_thumb1 - axel_offset*2}" rpy="0 0 0"/>

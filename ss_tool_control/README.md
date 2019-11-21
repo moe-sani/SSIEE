@@ -13,3 +13,14 @@ rostopic echo /joint_states
     velocity: []
     effort: []
     ---
+
+---------
+
+    rostopic pub /ss_tool/joint_states sensor_msgs/JointState "header:
+      seq: 0
+      stamp: {secs: 0, nsecs: 0}
+      frame_id: ''
+    name: ["joint_index_MIP", "joint_middle_MIP", "joint_thumb_MIP","joint_index_PIP", "joint_middle_PIP", "joint_thumb_PIP"]
+    position: [0,0,0,0,0,0]
+    velocity: [0]
+    effort: [0]" -r 100
