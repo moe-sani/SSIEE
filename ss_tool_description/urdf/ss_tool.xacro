@@ -1,0 +1,349 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="ss_tool" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="mass" value="1" /> <!-- arbitrary value for mass -->
+  <xacro:property name="width" value="0.1" /> <!-- Square dimensions (widthxwidth) of beams -->
+  <xacro:property name="width_palm" value="0.2" /> <!-- Square dimensions (widthxwidth) of beams -->
+  <xacro:property name="height_palm" value="0.5" /> <!-- Link 1 -->
+  <xacro:property name="height_index1" value="1" /> <!-- Link 2 -->
+  <xacro:property name="height_index2" value="0.5" /> <!-- Link 3 -->
+  <xacro:property name="height_middle1" value="1" /> <!-- Link 2 -->
+  <xacro:property name="height_middle2" value="0.5" /> <!-- Link 3 -->
+  <xacro:property name="height_thumb1" value="1" /> <!-- Link 3 -->
+  <xacro:property name="height_thumb2" value="0.7" /> <!-- Link 3 -->
+  <xacro:property name="axel_offset" value="0.05" /> <!-- Space btw top of beam and the each joint -->
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find ss_tool_description)/urdf/ss_tool.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find ss_tool_description)/urdf/materials.xacro" />
+
+  <!-- Used for fixing robot to Gazebo 'base_link' -->
+  <link name="world"/>
+
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="link_palm"/>
+<!--    <origin xyz="0 0 0.5 " rpy="0 0 0"/>-->
+<!--    <axis xyz="0 0 1"/>-->
+  </joint>
+
+  <!-- Palm Link==================== -->
+  <link name="link_palm">
+    <collision>
+      <origin xyz="0 0 ${height_palm/2}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width_palm} ${width_palm} ${height_palm}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_palm/2}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width_palm} ${width_palm} ${height_palm}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_palm/2}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width_palm*width_palm + height_palm*height_palm)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_palm*height_palm + width_palm*width_palm)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width_palm*width_palm + width_palm*width_palm)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_index_MIP" type="revolute">
+    <parent link="link_palm"/>
+    <child link="link_index1"/>
+    <origin xyz="-0.1 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="${-PI/3}" upper="${PI/8}" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="joint_middle_MIP" type="revolute">
+    <parent link="link_palm"/>
+    <child link="link_middle1"/>
+    <origin xyz="0.1 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="${-PI/3}" upper="${PI/8}" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <joint name="joint_thumb_MIP" type="revolute">
+    <parent link="link_palm"/>
+    <child link="link_thumb1"/>
+    <origin xyz="0 -${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="${-PI/8}" upper="${PI/3}" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <!-- index1 Link====================== -->
+  <link name="link_index1">
+    <collision>
+      <origin xyz="0 0 ${height_index1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_index1}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_index1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_index1}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_index1/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_index1*height_index1)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_index1*height_index1 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_index_PIP" type="revolute">
+    <parent link="link_index1"/>
+    <child link="link_index2"/>
+    <origin xyz="0 0 ${height_index1 - axel_offset*2}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="0" upper="${PI/3}" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <!-- Index 2 Link=============== -->
+  <link name="link_index2">
+    <collision>
+      <origin xyz="0 0 ${height_index2/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_index2}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_index2/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_index2}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_index2/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_index2*height_index2)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_index2*height_index2 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+
+
+  <!-- middle1 Link====================== -->
+  <link name="link_middle1">
+    <collision>
+      <origin xyz="0 0 ${height_middle1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_middle1}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_middle1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_middle1}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_middle1/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_middle1*height_middle1)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_middle1*height_middle1 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_middle_PIP" type="revolute">
+    <parent link="link_middle1"/>
+    <child link="link_middle2"/>
+    <origin xyz="0 0 ${height_middle1 - axel_offset*2}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="0" upper="${PI/3}" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <!-- middle 2 Link=============== -->
+  <link name="link_middle2">
+    <collision>
+      <origin xyz="0 0 ${height_middle2/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_middle2}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_middle2/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_middle2}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_middle2/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_middle2*height_middle2)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_middle2*height_middle2 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+  <!-- thumb1 Link====================== -->
+  <link name="link_thumb1">
+    <collision>
+      <origin xyz="0 0 ${height_thumb1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_thumb1}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${height_thumb1/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_thumb1}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height_thumb1/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_thumb1*height_thumb1)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_thumb1*height_thumb1 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_thumb_PIP" type="revolute">
+    <parent link="link_thumb1"/>
+    <child link="link_thumb2"/>
+    <origin xyz="0 0 ${height_thumb1 - axel_offset*2}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="330.0" lower="${-PI/3}" upper="0" velocity="2.16"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <!-- thumb 2 Link=============== -->
+  <link name="link_thumb2">
+    <collision>
+      <origin xyz="0 0 ${height_thumb2/2 - axel_offset}" rpy="0 0 0"/>
+      <geometry>
+	<box size="${width} ${width} ${height_thumb2}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </visual>
+<!--    <visual>-->
+<!--      <origin xyz="0 0 ${height_thumb2/2 - axel_offset}" rpy="0 0 0"/>-->
+<!--      <geometry>-->
+<!--	<box size="${width} ${width} ${height_thumb2}"/>-->
+<!--      </geometry>-->
+<!--      <material name="orange"/>-->
+<!--    </visual>-->
+
+    <inertial>
+      <origin xyz="0 0 ${height_thumb2/2 - axel_offset}" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + height_thumb2*height_thumb2)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (height_thumb2*height_thumb2 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + width*width)}"/>
+    </inertial>
+  </link>
+
+
+  <transmission name="tran_index1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_index1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_index1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="tran_index2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_index2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_index2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_middle1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_middle1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_middle1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="tran_middle2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_middle2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_middle2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_thumb1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_thumb1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_thumb1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="tran_thumb2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_thumb2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_thumb2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>
