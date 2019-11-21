@@ -5,14 +5,14 @@
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:property name="mass" value="1" /> <!-- arbitrary value for mass -->
-  <xacro:property name="width" value="0.1" /> <!-- Square dimensions (widthxwidth) of beams -->
+  <xacro:property name="width" value="0.2" /> <!-- Square dimensions (widthxwidth) of beams -->
   <xacro:property name="width_palm" value="0.2" /> <!-- Square dimensions (widthxwidth) of beams -->
-  <xacro:property name="height_palm" value="0.5" /> <!-- Link 1 -->
-  <xacro:property name="height_index1" value="1" /> <!-- Link 2 -->
+  <xacro:property name="height_palm" value="1" /> <!-- Link 1 -->
+  <xacro:property name="height_index1" value="1.35" /> <!-- Link 2 -->
   <xacro:property name="height_index2" value="0.5" /> <!-- Link 3 -->
-  <xacro:property name="height_middle1" value="1" /> <!-- Link 2 -->
+  <xacro:property name="height_middle1" value="1.35" /> <!-- Link 2 -->
   <xacro:property name="height_middle2" value="0.5" /> <!-- Link 3 -->
-  <xacro:property name="height_thumb1" value="1" /> <!-- Link 3 -->
+  <xacro:property name="height_thumb1" value="1.35" /> <!-- Link 3 -->
   <xacro:property name="height_thumb2" value="0.7" /> <!-- Link 3 -->
   <xacro:property name="axel_offset" value="0.05" /> <!-- Space btw top of beam and the each joint -->
 
@@ -41,11 +41,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_palm/2}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width_palm} ${width_palm} ${height_palm}"/>
+        <mesh filename="package://ss_tool_description/meshes/palm.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="orange"/>
     </visual>
 
     <inertial>
@@ -61,7 +60,7 @@
   <joint name="joint_index_MIP" type="revolute">
     <parent link="link_palm"/>
     <child link="link_index1"/>
-    <origin xyz="-0.1 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <origin xyz="-0.2 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit effort="330.0" lower="${-PI/3}" upper="${PI/8}" velocity="2.16"/>
     <dynamics damping="0.7"/>
@@ -70,7 +69,7 @@
   <joint name="joint_middle_MIP" type="revolute">
     <parent link="link_palm"/>
     <child link="link_middle1"/>
-    <origin xyz="0.1 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <origin xyz="0.2 ${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit effort="330.0" lower="${-PI/3}" upper="${PI/8}" velocity="2.16"/>
     <dynamics damping="0.7"/>
@@ -79,7 +78,7 @@
   <joint name="joint_thumb_MIP" type="revolute">
     <parent link="link_palm"/>
     <child link="link_thumb1"/>
-    <origin xyz="0 -${width_palm/2} ${height_palm - axel_offset}" rpy="0 0 0"/>
+    <origin xyz="0 -${width_palm} ${height_palm - axel_offset}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit effort="330.0" lower="${-PI/8}" upper="${PI/3}" velocity="2.16"/>
     <dynamics damping="0.7"/>
@@ -95,11 +94,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_index1/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width} ${width} ${height_index1}"/>
+        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="black"/>
     </visual>
 
     <inertial>
@@ -131,11 +129,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_index2/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width} ${width} ${height_index2}"/>
+        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="orange"/>
     </visual>
 
     <inertial>
@@ -160,11 +157,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_middle1/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width} ${width} ${height_middle1}"/>
+        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="black"/>
     </visual>
 
     <inertial>
@@ -196,11 +192,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_middle2/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width} ${width} ${height_middle2}"/>
+        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="orange"/>
     </visual>
 
     <inertial>
@@ -223,11 +218,10 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height_thumb1/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-	<box size="${width} ${width} ${height_thumb1}"/>
+        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
-      <material name="black"/>
     </visual>
 
     <inertial>
@@ -259,18 +253,11 @@
     </collision>
 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="${-PI/2} 0 ${PI}"/>
       <geometry>
         <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
-<!--    <visual>-->
-<!--      <origin xyz="0 0 ${height_thumb2/2 - axel_offset}" rpy="0 0 0"/>-->
-<!--      <geometry>-->
-<!--	<box size="${width} ${width} ${height_thumb2}"/>-->
-<!--      </geometry>-->
-<!--      <material name="orange"/>-->
-<!--    </visual>-->
 
     <inertial>
       <origin xyz="0 0 ${height_thumb2/2 - axel_offset}" rpy="0 0 0"/>
