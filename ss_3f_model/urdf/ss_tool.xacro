@@ -17,9 +17,9 @@
   <xacro:property name="axel_offset" value="0.05" /> <!-- Space btw top of beam and the each joint -->
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find ss_tool_description)/urdf/ss_tool.gazebo" />
+  <xacro:include filename="$(find ss_3f_model)/urdf/ss_tool.gazebo" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find ss_tool_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find ss_3f_model)/urdf/materials.xacro" />
 
   <!-- Used for fixing robot to Gazebo 'base_link' -->
   <link name="world"/>
@@ -43,7 +43,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/palm.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/palm.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -96,7 +96,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -131,7 +131,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -159,7 +159,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -194,7 +194,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -220,7 +220,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 0"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingerlink.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -255,7 +255,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="${-PI/2} 0 ${PI}"/>
       <geometry>
-        <mesh filename="package://ss_tool_description/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
+        <mesh filename="package://ss_3f_model/meshes/fingertip.dae" scale="0.05 0.05 0.05"/>
       </geometry>
     </visual>
 
@@ -268,69 +268,5 @@
 	  izz="${mass / 12.0 * (width*width + width*width)}"/>
     </inertial>
   </link>
-
-
-  <transmission name="tran_index1">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_index1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_index1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <transmission name="tran_index2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_index2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_index2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="tran_middle1">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_middle1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_middle1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <transmission name="tran_middle2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_middle2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_middle2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="tran_thumb1">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_thumb1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_thumb1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-  <transmission name="tran_thumb2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_thumb2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_thumb2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
 </robot>

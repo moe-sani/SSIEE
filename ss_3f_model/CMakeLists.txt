@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ss_tool_description)
+project(ss_3f_model)
 
 find_package(catkin REQUIRED)
 
