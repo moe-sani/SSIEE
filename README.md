@@ -1,6 +1,11 @@
 # SSIEE
 SMARTsurg Integrated Exo-Eskeleton
 
+* author: Mohammad Fattahi Sani
+* Email: fattahi.m91@gmail.com
+
+----------
+
 
 This package is for simulating the 3-finger tool and davinci tool.
 
